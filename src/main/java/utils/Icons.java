@@ -1,5 +1,6 @@
 package utils;
 
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 
 public class Icons {
@@ -23,12 +24,20 @@ public class Icons {
         return getImageView(WAY_TO_OPEN_FOLDER_ICON);
     }
 
+    public static ProgressIndicator loading() {
+        ProgressIndicator pinMain = new ProgressIndicator();
+        pinMain.setPrefSize(SIZE_OF_ICON, SIZE_OF_ICON);
+        return pinMain;
+    }
+
     private static ImageView getImageView(String fileWay) {
         ImageView view = new ImageView(fileWay);
         view.setFitWidth(SIZE_OF_ICON);
         view.setFitHeight(SIZE_OF_ICON);
         return view;
     }
+
+
 
 
 }

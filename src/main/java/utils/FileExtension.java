@@ -62,6 +62,7 @@ public class FileExtension {
 
     public void rename(FileExtension to) throws IOException {
         cut(to);
+        file = to.file;
     }
 
     public FileExtension newFolder() throws IOException {

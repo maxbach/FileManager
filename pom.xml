@@ -20,6 +20,7 @@
                             <mainClass>Main</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>FxManager</finalName>
                 </configuration>
             </plugin>
 

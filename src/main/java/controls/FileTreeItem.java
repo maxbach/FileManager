@@ -1,31 +1,35 @@
 package controls;
 
+import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.ImageView;
 import utils.FileExtension;
 import utils.Icons;
 
-
 import java.io.File;
 
 public class FileTreeItem extends TreeItem<FileExtension> {
 
-    private Boolean childInPlace;
+    private Boolean hasLoadedChilds;
+    private ProgressIndicator pinMain;
 
     public FileTreeItem(FileExtension value) {
         super(value);
 
-        childInPlace = false;
+        hasLoadedChilds = false;
+        pinMain = Icons.loading();
 
     }
 
     public FileTreeItem(FileExtension value, Node graphic) {
         super(value, graphic);
 
-        childInPlace = false;
+        hasLoadedChilds = false;
+        pinMain = Icons.loading();
     }
 
     @Override
@@ -35,15 +39,24 @@ public class FileTreeItem extends TreeItem<FileExtension> {
 
     @Override
     public ObservableList<TreeItem<FileExtension>> getChildren() {
-        if (!childInPlace) {
-            childInPlace = true;
-            addChildes();
+        if (!hasLoadedChilds) {
+            PauseTransition pt = new PauseTransition(javafx.util.Duration.seconds(2));
+            pt.setOnFinished(event -> {
+
+                hasLoadedChilds = true;
+                addChildes();
+                setGraphic(Icons.openFolder());
+
+            });
+            setGraphic(pinMain);
+            pt.play();
         }
+
         return super.getChildren();
     }
 
     public void addNewChild(FileExtension file) {
-        if (childInPlace) {
+        if (hasLoadedChilds) {
             FileTreeItem newFolderItem = createItem(file);
             super.getChildren().addAll(newFolderItem);
         }
@@ -95,6 +108,7 @@ public class FileTreeItem extends TreeItem<FileExtension> {
         FileTreeItem item = new FileTreeItem(child, image);
 
         item.expandedProperty().addListener((observable, oldValue, newValue) -> {
+
             if (newValue) {
                 item.setGraphic(Icons.openFolder());
             } else {
@@ -107,3 +121,6 @@ public class FileTreeItem extends TreeItem<FileExtension> {
 
 
 }
+
+
+

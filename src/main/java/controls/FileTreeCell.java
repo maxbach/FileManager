@@ -188,7 +188,7 @@ public class FileTreeCell extends TreeCell<FileExtension> {
 
             try {
                 fileExtension.rename(destinationFile);
-                updateItem(fileExtension, isEmpty());
+                updateItem();
                 super.commitEdit(fileExtension);
             } catch (IOException e) {
                 error(e, "renaming");
@@ -241,13 +241,11 @@ public class FileTreeCell extends TreeCell<FileExtension> {
     }
 
     private void updateScreen() {
-        getTreeView().getRoot().setExpanded(false);
-        getTreeView().getRoot().setExpanded(true);
+        updateTreeView(getTreeView());
     }
 
     private void updateItem() {
-        getTreeItem().setExpanded(false);
-        getTreeItem().setExpanded(true);
+        updateTreeItem(getTreeItem());
     }
 
     private void setupForMovingFile(Boolean isCopy) {
